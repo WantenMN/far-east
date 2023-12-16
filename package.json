@@ -1,41 +1,47 @@
 {
   "name": "far-east",
-  "description": "A simple shmup with graphics generated from Kanji characters.",
-  "version": "0.1.1",
+  "description": "A simple shm up with graphics generated from Kanji characters.",
+  "version": "1.0.0",
+  "license": "MIT",
   "author": "FAL",
+  "scripts": {
+    "build": "parcel build index.html --public-url /far-east",
+    "postbuild": "cp -nrv assets dist",
+    "prestart": "rm -fr .parcel-cache dist && eslint --fix . && prettier --write . && mkdir dist && npm run postbuild",
+    "start": "parcel serve index.html --open"
+  },
   "dependencies": {
-    "@fal-works/creative-coding-core": "0.1.7",
-    "@fal-works/p5-extension": "0.1.7",
+    "@fal-works/creative-coding-core": "^0.1.7",
+    "@fal-works/p5-extension": "^0.1.7",
     "p5": "^0.9.0"
   },
   "devDependencies": {
+    "@parcel/transformer-sass": "^2.10.3",
     "@types/p5": "^0.9.0",
-    "@typescript-eslint/eslint-plugin": "^2.3.3",
-    "@typescript-eslint/parser": "^2.3.3",
-    "eslint": "^6.5.1",
-    "eslint-config-prettier": "^6.4.0",
-    "eslint-plugin-prettier": "^3.1.1",
-    "prettier": "^1.18.2",
-    "rollup": "^1.23.1",
-    "rollup-plugin-cleanup": "^3.1.1",
-    "rollup-plugin-node-resolve": "^5.2.0",
-    "rollup-plugin-typescript2": "^0.24.3",
-    "terser": "^4.3.8",
-    "typescript": "^3.6.4"
+    "@typescript-eslint/eslint-plugin": "^6.14.0",
+    "@typescript-eslint/parser": "^6.14.0",
+    "eslint": "^8.55.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.0.1",
+    "parcel": "^2.10.3",
+    "prettier": "^3.1.1",
+    "prettier-plugin-css-order": "^2.0.1",
+    "typescript": "^5.3.3"
   },
-  "eslintIgnore": [
-    "*.min.js"
-  ],
-  "files": [
-    "dist"
-  ],
-  "license": "MIT",
-  "main": "dist/main.js",
-  "private": true,
-  "scripts": {
-    "build": "npm-run-all rollup eslint terser",
-    "eslint": "eslint --fix ./dist/main.js",
-    "rollup": "rollup -c",
-    "terser": "terser ./dist/main.js -c -m -o ./dist/main.min.js --comments /@copyright/ --ecma 6"
+  "alias": {
+    "@fal-works/creative-coding-core": {
+      "global": "CreativeCodingCore"
+    },
+    "@fal-works/p5-extension": {
+      "global": "p5ex"
+    },
+    "p5": {
+      "global": "p5"
+    }
+  },
+  "targets": {
+    "default": {
+      "context": "browser"
+    }
   }
 }

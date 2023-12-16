@@ -1,4 +1,4 @@
-import * as Actor from "./actor";
+import * as Actor from './actor';
 
 export interface Type {
   draw: () => void;

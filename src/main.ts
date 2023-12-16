@@ -1,4 +1,4 @@
-import p5 from "p5";
+import p5 from 'p5';
 
 import {
   startSketch,
@@ -8,18 +8,14 @@ import {
   replaceCanvasPixels,
   // pauseOrResume,
   MoveKeys,
-  Mouse
-} from "@fal-works/p5-extension";
+  Mouse,
+} from '@fal-works/p5-extension';
 
-import {
-  HTML_ELEMENT,
-  LOGICAL_CANVAS_SIZE,
-  ENABLE_CANVAS_SCALING
-} from "./settings";
+import { HTML_ELEMENT, LOGICAL_CANVAS_SIZE, ENABLE_CANVAS_SCALING } from './settings';
 
-import * as Fonts from "./fonts";
-import * as Sounds from "./sound";
-import * as Game from "./game";
+import * as Fonts from './fonts';
+import * as Sounds from './sound';
+import * as Game from './game';
 
 // ---- variables | functions ----
 
@@ -31,17 +27,17 @@ let gameIsStarted = false;
 
 const prelaod = (): void => {
   Fonts.load(p, {
-    jp: "NotoSerifJP-Medium-subset.otf",
-    en: "NotoSerifJP-Bold-subset.otf"
+    jp: 'NotoSerifJP-Medium-subset.otf',
+    en: 'NotoSerifJP-Bold-subset.otf',
   });
 
   Sounds.load(p, {
-    music: "WELCOMEB4CK.ogg",
-    gunSound: "submachinegun1_edit.wav",
-    bombSound: "bomb2_edit.wav",
-    preAppearanceSound: "enemy-advent1.wav",
-    appearanceSound: "punch-high2.wav",
-    damageSound: "cannon1_edit.wav"
+    music: 'WELCOMEB4CK.ogg',
+    gunSound: 'submachinegun1_edit.wav',
+    bombSound: 'bomb2_edit.wav',
+    preAppearanceSound: 'enemy-advent1.wav',
+    appearanceSound: 'punch-high2.wav',
+    damageSound: 'cannon1_edit.wav',
   });
 };
 
@@ -51,17 +47,14 @@ const reset = (): void => {
 
 const updateVolume = () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  Sounds.setVolume(((volumeSlider.value() as any) as number) * 0.01);
+  Sounds.setVolume((volumeSlider.value() as any as number) * 0.01);
 };
 
 const initializeVolumeSlider = () => {
   volumeSlider = p.createSlider(0, 100, 15, 5);
-  volumeSlider.position(
-    canvas.scaleFactor * 50,
-    canvas.scaleFactor * (canvas.logicalSize.height - 40)
-  );
-  volumeSlider.style("width", `${canvas.scaleFactor * 200}px`);
-  volumeSlider.style("height", `${canvas.scaleFactor * 25}px`);
+  volumeSlider.position(canvas.scaleFactor * 50, canvas.scaleFactor * (canvas.logicalSize.height - 40));
+  volumeSlider.style('width', `${canvas.scaleFactor * 200}px`);
+  volumeSlider.style('height', `${canvas.scaleFactor * 25}px`);
   updateVolume();
 };
 
@@ -98,12 +91,12 @@ const drawInstruction = () => {
   p.textFont(Fonts.en, 24);
   p.textAlign(p.LEFT);
 
-  p.text("ARROW / WASD :", 160, 500);
-  p.text("MOVE", 460, 500);
-  p.text("Z / J / SPACE / ENTER :", 160, 540);
-  p.text("SHOOT", 460, 540);
+  p.text('ARROW / WASD :', 160, 500);
+  p.text('MOVE', 460, 500);
+  p.text('Z / J / SPACE / ENTER :', 160, 540);
+  p.text('SHOOT', 460, 540);
 
-  p.text("PRESS SPACE KEY TO START", 160, 600);
+  p.text('PRESS SPACE KEY TO START', 160, 600);
 
   p.pop();
 };
@@ -115,7 +108,7 @@ const drawSketch = (): void => {
 
   p.textFont(Fonts.en, 16);
   p.textAlign(p.LEFT);
-  p.text("VOL", 10, canvas.logicalSize.height - 23);
+  p.text('VOL', 10, canvas.logicalSize.height - 23);
 };
 
 const draw = (): void => {
@@ -131,8 +124,8 @@ const keyTyped = (): void => {
     // case "p":
     //   pauseOrResume();
     //   break;
-    case "g":
-      p.save("image.png");
+    case 'g':
+      p.save('image.png');
       break;
   }
 
@@ -157,8 +150,7 @@ const setP5Methods = (p: p5): void => {
   p.keyTyped = keyTyped;
   p.keyPressed = () => {
     MoveKeys.onPressed();
-    if (MoveKeys.up || MoveKeys.left || MoveKeys.down || MoveKeys.right)
-      return false;
+    if (MoveKeys.up || MoveKeys.left || MoveKeys.down || MoveKeys.right) return false;
   };
   p.keyReleased = () => {
     MoveKeys.onReleased();
@@ -170,5 +162,5 @@ startSketch({
   logicalCanvasSize: LOGICAL_CANVAS_SIZE,
   initialize,
   setP5Methods,
-  fittingOption: ENABLE_CANVAS_SCALING ? undefined : null
+  fittingOption: ENABLE_CANVAS_SCALING ? undefined : null,
 });

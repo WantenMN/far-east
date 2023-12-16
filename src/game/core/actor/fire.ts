@@ -1,9 +1,3 @@
-import { Type } from "./type";
+import { Type } from './type';
 
-export type FireCallback = (
-  x: number,
-  y: number,
-  speed: number,
-  directionAngle: number,
-  type: Type
-) => number | null;
+export type FireCallback = (x: number, y: number, speed: number, directionAngle: number, type: Type) => number | null;

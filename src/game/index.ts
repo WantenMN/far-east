@@ -1,48 +1,34 @@
-import {
-  Math as Math2,
-  Timer,
-  Random,
-  Easing
-} from "@fal-works/creative-coding-core";
-import {
-  p,
-  canvas,
-  setShake,
-  ShakeType,
-  applyShake,
-  drawTransformed
-} from "@fal-works/p5-extension";
-import * as Core from "./core/game-core";
-import * as ActorTypes from "./core/actor-types";
-import * as EnemySlot from "./enemy-slot";
-import * as Actor from "./core/actor";
-import * as Sound from "../sound";
+import { Math as Math2, Timer, Random, Easing } from '@fal-works/creative-coding-core';
+import { p, canvas, setShake, applyShake, drawTransformed } from '@fal-works/p5-extension';
+import * as Core from './core/game-core';
+import * as ActorTypes from './core/actor-types';
+import * as EnemySlot from './enemy-slot';
+import * as Actor from './core/actor';
+import * as Sound from '../sound';
+const enum ShakeType {
+  VERTICAL = 'VERTICAL',
+  HORIZONTAL = 'HORIZONTAL',
+}
 
 let score = 0;
 
 export const enum State {
-  PLAYING = "PLAYING",
-  RESULT = "RESULT"
+  PLAYING = 'PLAYING',
+  RESULT = 'RESULT',
 }
 
 export let state = State.PLAYING;
 
 const timerSet = Timer.Set.create(64);
 
-const fireParticles = (
-  x: number,
-  y: number,
-  count: number,
-  maxPositionOffset: number,
-  maxSpeed: number
-) => {
+const fireParticles = (x: number, y: number, count: number, maxPositionOffset: number, maxSpeed: number) => {
   for (let i = 0; i < count; i += 1)
     Core.fireParticle(
       x + Random.between(-maxPositionOffset, maxPositionOffset),
       y + Random.between(-maxPositionOffset, maxPositionOffset),
       Random.between(5, maxSpeed),
       Random.angle(),
-      ActorTypes.randomParticle()
+      ActorTypes.randomParticle(),
     );
 };
 
@@ -67,8 +53,7 @@ const addAppearanceParticle = (x: number, y: number, bearing: number) => {
 };
 
 const addAppearanceEffect = (x: number, y: number) => {
-  for (let i = 0; i < 8; i += 1)
-    addAppearanceParticle(x, y, (i / 8) * Math2.TWO_PI);
+  for (let i = 0; i < 8; i += 1) addAppearanceParticle(x, y, (i / 8) * Math2.TWO_PI);
 };
 
 const addEnemy = (slot: EnemySlot.Unit) => {
@@ -85,7 +70,7 @@ const addEnemy = (slot: EnemySlot.Unit) => {
 
       fireParticles(x, y, 32, 30, 30);
       Sound.playAppearanceSound();
-    })
+    }),
   );
 
   slot.state = EnemySlot.State.APPROACHING;
@@ -104,12 +89,7 @@ export const reset = (playable: boolean = true) => {
   EnemySlot.reset(addEnemy);
 };
 
-const onHitEnemy: Actor.Group.OnCollideCallback = (
-  playerBullet,
-  playerBulletIndex,
-  enemy,
-  enemyIndex
-) => {
+const onHitEnemy: Actor.Group.OnCollideCallback = (playerBullet, playerBulletIndex, enemy, enemyIndex) => {
   const x = playerBullet.soa.data.x[playerBulletIndex];
   const y = playerBullet.soa.data.y[playerBulletIndex];
   Actor.Group.kill(playerBullet, playerBulletIndex);
@@ -130,12 +110,7 @@ const onHitEnemy: Actor.Group.OnCollideCallback = (
   }
 };
 
-const onHitPlayer: Actor.Group.OnCollideCallback = (
-  enemyBullet,
-  enemyBulletIndex,
-  player,
-  playerIndex
-) => {
+const onHitPlayer: Actor.Group.OnCollideCallback = (enemyBullet, enemyBulletIndex, player, playerIndex) => {
   const x = enemyBullet.soa.data.x[enemyBulletIndex];
   const y = enemyBullet.soa.data.y[enemyBulletIndex];
   Actor.Group.kill(enemyBullet, enemyBulletIndex);
@@ -155,9 +130,7 @@ const onHitPlayer: Actor.Group.OnCollideCallback = (
 
   Sound.playDamageSound();
 
-  Core.breakEnemyBullets((x, y) =>
-    Core.fireParticle(x, y, 0, 0, ActorTypes.randomParticle())
-  );
+  Core.breakEnemyBullets((x, y) => Core.fireParticle(x, y, 0, 0, ActorTypes.randomParticle()));
 };
 
 const drawLife = () => {
@@ -180,17 +153,9 @@ const drawScore = () => {
 const drawResult = () => {
   p.textAlign(p.CENTER);
   p.textSize(64);
-  p.text(
-    "RESULT",
-    canvas.logicalCenterPosition.x,
-    canvas.logicalCenterPosition.y
-  );
+  p.text('RESULT', canvas.logicalCenterPosition.x, canvas.logicalCenterPosition.y);
   p.textSize(96);
-  p.text(
-    p.nfc(score, 0),
-    canvas.logicalCenterPosition.x,
-    canvas.logicalCenterPosition.y + 128
-  );
+  p.text(p.nfc(score, 0), canvas.logicalCenterPosition.x, canvas.logicalCenterPosition.y + 128);
 };
 
 export const run = () => {

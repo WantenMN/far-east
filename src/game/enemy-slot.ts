@@ -1,11 +1,11 @@
-import { Random } from "@fal-works/creative-coding-core";
-import * as Core from "./core/game-core";
-import { LOGICAL_CANVAS_SIZE } from "../settings";
+import { Random } from '@fal-works/creative-coding-core';
+import * as Core from './core/game-core';
+import { LOGICAL_CANVAS_SIZE } from '../settings';
 
 export const enum State {
-  ACTIVE = "ACTIVE",
-  APPROACHING = "APPROACHING",
-  ABSENT = "ABSENT"
+  ACTIVE = 'ACTIVE',
+  APPROACHING = 'APPROACHING',
+  ABSENT = 'ABSENT',
 }
 
 export interface Unit {
@@ -20,20 +20,20 @@ export const list: readonly Unit[] = [
     x: 0.25 * LOGICAL_CANVAS_SIZE.width,
     y: 0.25 * LOGICAL_CANVAS_SIZE.height,
     index: -1,
-    state: State.ABSENT
+    state: State.ABSENT,
   },
   {
     x: 0.5 * LOGICAL_CANVAS_SIZE.width,
     y: 0.15 * LOGICAL_CANVAS_SIZE.height,
     index: -1,
-    state: State.ABSENT
+    state: State.ABSENT,
   },
   {
     x: 0.75 * LOGICAL_CANVAS_SIZE.width,
     y: 0.25 * LOGICAL_CANVAS_SIZE.height,
     index: -1,
-    state: State.ABSENT
-  }
+    state: State.ABSENT,
+  },
 ];
 
 export const reset = (addEnemy: (slot: Unit) => void) => {

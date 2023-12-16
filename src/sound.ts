@@ -1,7 +1,7 @@
-import p5 from "p5";
-import "p5/lib/addons/p5.sound";
+import p5 from 'p5';
+import 'p5/lib/addons/p5.sound';
 
-import { ENABLE_MUSIC, ASSETS_DIRECTORY_PATH as ASSETS } from "./settings";
+import { ENABLE_MUSIC, ASSETS_DIRECTORY_PATH as ASSETS } from './settings';
 
 let volume = 0;
 let music: p5.SoundFile;
@@ -13,7 +13,7 @@ let damageSound: p5.SoundFile;
 
 const createLoadFile = (p: p5) => {
   /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-  const p5Sound = (p as any) as p5.SoundFile;
+  const p5Sound = p as any as p5.SoundFile;
 
   return (file: string): p5.SoundFile => p5Sound.loadSound(`${ASSETS}/${file}`);
 };
@@ -27,7 +27,7 @@ export const load = (
     preAppearanceSound: string;
     appearanceSound: string;
     damageSound: string;
-  }
+  },
 ) => {
   const loadFile = createLoadFile(p);
 
@@ -35,13 +35,13 @@ export const load = (
   const pAny = p as any;
 
   if (ENABLE_MUSIC) {
-    pAny.soundFormats("ogg", "mp3");
+    pAny.soundFormats('ogg', 'mp3');
 
     music = loadFile(files.music);
     music.setLoop(true);
   }
 
-  pAny.soundFormats("wav");
+  pAny.soundFormats('wav');
 
   gunSound = loadFile(files.gunSound);
   gunSound.setLoop(true);

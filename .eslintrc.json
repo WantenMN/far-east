@@ -1,51 +1,31 @@
 {
   "env": {
     "browser": true,
-    "es6": true
+    "es2020": true
   },
   "extends": [
-    "eslint:recommended",
-    "plugin:prettier/recommended"
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
+  "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": 2015,
+    "ecmaVersion": 2020,
     "sourceType": "module"
   },
-  "overrides": [
-    {
-      "files": ["dist/*.js"],
-      "globals": {
-        "p5": "readonly",
-        "CreativeCodingCore": "readonly",
-        "p5ex": "readonly"
-      },
-      "parserOptions": {
-        "sourceType": "script"
-      },
-      "rules": {
-        "no-prototype-builtins": "off",
-        "no-unused-vars": "off"
-      }
-    },
-    {
-      "files": ["src/**/*.ts"],
-      "extends": [
-        "plugin:@typescript-eslint/eslint-recommended",
-        "plugin:@typescript-eslint/recommended",
-        "prettier/@typescript-eslint"
-      ],
-      "globals": {},
-      "parser": "@typescript-eslint/parser",
-      "parserOptions": {
-        "project": "./tsconfig.json"
-      },
-      "plugins": [
-        "@typescript-eslint"
-      ],
-      "rules": {
-        "@typescript-eslint/explicit-function-return-type": "off",
-        "@typescript-eslint/no-parameter-properties": "off"
+  "plugins": ["@typescript-eslint", "prettier"],
+  "rules": {
+    "prettier/prettier": "warn",
+    "semi": ["error", "always"],
+    "space-before-function-paren": ["warn", { "anonymous": "ignore", "named": "always" }],
+    "func-names": ["error", "never"],
+    "import/extensions": [0, "never"]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
       }
     }
-  ]
+  }
 }

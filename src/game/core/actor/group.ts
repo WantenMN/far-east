@@ -1,10 +1,7 @@
-import {
-  StructureOfArrays,
-  RectangleRegion
-} from "@fal-works/creative-coding-core";
-import { drawTransformed, canvas } from "@fal-works/p5-extension";
-import * as Actor from "./actor";
-import { Type } from "./type";
+import { StructureOfArrays, RectangleRegion } from '@fal-works/creative-coding-core';
+import { drawTransformed, canvas } from '@fal-works/p5-extension';
+import * as Actor from './actor';
+import { Type } from './type';
 
 export interface Unit {
   readonly soa: StructureOfArrays.Unit<Actor.Unit>;
@@ -27,13 +24,13 @@ export const create = (capacity: number): Unit => {
     run: () => {},
     collisionDistance: 0,
     life: 0,
-    damagedRemainingCount: 0
+    damagedRemainingCount: 0,
   };
 
   return {
     soa: StructureOfArrays.from(prototypeStructure, capacity),
     startIndex: Infinity,
-    endIndex: 0
+    endIndex: 0,
   };
 };
 
@@ -48,15 +45,7 @@ export const create = (capacity: number): Unit => {
  * @param type
  * @return `true` if succeeded.
  */
-export const use = (
-  group: Unit,
-  x: number,
-  y: number,
-  vx: number,
-  vy: number,
-  angle: number,
-  type: Type
-) => {
+export const use = (group: Unit, x: number, y: number, vx: number, vy: number, angle: number, type: Type) => {
   const { data, length } = group.soa;
   const { active } = data;
 
@@ -87,11 +76,7 @@ export const use = (
   return null;
 };
 
-const findFirstActive = (
-  active: boolean[],
-  startIndex: number,
-  endIndex: number
-) => {
+const findFirstActive = (active: boolean[], startIndex: number, endIndex: number) => {
   for (let i = startIndex; i < endIndex; i += 1) {
     if (active[i]) return i;
   }
@@ -99,11 +84,7 @@ const findFirstActive = (
   return Infinity;
 };
 
-const findLastActive = (
-  active: boolean[],
-  startIndex: number,
-  endIndex: number
-) => {
+const findLastActive = (active: boolean[], startIndex: number, endIndex: number) => {
   for (let i = endIndex - 1; i >= startIndex; i -= 1) {
     if (active[i]) return i;
   }
@@ -125,11 +106,9 @@ export const kill = (group: Unit, index: number) => {
 
   active[index] = false;
 
-  if (index === startIndex)
-    group.startIndex = findFirstActive(active, startIndex + 1, endIndex);
+  if (index === startIndex) group.startIndex = findFirstActive(active, startIndex + 1, endIndex);
 
-  if (index === endIndex)
-    group.endIndex = findLastActive(active, group.startIndex, endIndex - 1) + 1;
+  if (index === endIndex) group.endIndex = findLastActive(active, group.startIndex, endIndex - 1) + 1;
 
   return true;
 };
@@ -152,7 +131,7 @@ export const runAndDraw = (group: Unit) => {
     run,
     rotationAngle,
     scaleFactor,
-    damagedRemainingCount
+    damagedRemainingCount,
   } = data;
   const tmpPosition = { x: 0, y: 0 };
 
@@ -164,9 +143,7 @@ export const runAndDraw = (group: Unit) => {
     tmpPosition.x = x[i] += vx[i];
     tmpPosition.y = y[i] += vy[i];
 
-    if (
-      !RectangleRegion.containsPoint(canvas.logicalRegion, tmpPosition, -100)
-    ) {
+    if (!RectangleRegion.containsPoint(canvas.logicalRegion, tmpPosition, -100)) {
       kill(group, i);
       continue;
     }
@@ -176,13 +153,11 @@ export const runAndDraw = (group: Unit) => {
     const damaged = damagedRemainingCount[i] > 0;
     if (thisScaleFactor > 0)
       drawTransformed(
-        damaged && drawDamaged && frameCount[i] % 4 < 2
-          ? drawDamaged
-          : drawGraphics[i],
+        damaged && drawDamaged && frameCount[i] % 4 < 2 ? drawDamaged : drawGraphics[i],
         x[i],
         y[i],
         rotationAngle[i],
-        thisScaleFactor
+        thisScaleFactor,
       );
 
     if (damaged) damagedRemainingCount[i] -= 1;
@@ -208,18 +183,8 @@ export const reset = (group: Unit) => {
   return group;
 };
 
-export const breakActors = (
-  group: Unit,
-  fireParticle: (x: number, y: number) => void
-) => {
-  const {
-    active,
-    x,
-    y,
-    run,
-    drawGraphics,
-    drawGraphicsDamaged
-  } = group.soa.data;
+export const breakActors = (group: Unit, fireParticle: (x: number, y: number) => void) => {
+  const { active, x, y, run, drawGraphics, drawGraphicsDamaged } = group.soa.data;
 
   const emptyFunction = () => {};
 
@@ -240,12 +205,7 @@ export const breakActors = (
   return group;
 };
 
-export type OnCollideCallback = (
-  group: Unit,
-  index: number,
-  otherGroup: Unit,
-  otherIndex: number
-) => void;
+export type OnCollideCallback = (group: Unit, index: number, otherGroup: Unit, otherIndex: number) => void;
 
 /**
  * A pretty naive function for collision checking.
@@ -253,11 +213,7 @@ export type OnCollideCallback = (
  * @param otherGroup
  * @param onCollide
  */
-export const checkCollision = (
-  group: Unit,
-  otherGroup: Unit,
-  onCollide: OnCollideCallback
-) => {
+export const checkCollision = (group: Unit, otherGroup: Unit, onCollide: OnCollideCallback) => {
   const data = group.soa.data;
   const otherData = otherGroup.soa.data;
   const { active, x, y, collisionDistance } = data;
@@ -271,14 +227,9 @@ export const checkCollision = (
     const thisX = x[index];
     const thisY = y[index];
     const thisCollisionDistance = collisionDistance[index];
-    for (
-      let otherIndex = otherGroup.startIndex;
-      otherIndex < otherGroup.endIndex;
-      otherIndex += 1
-    ) {
+    for (let otherIndex = otherGroup.startIndex; otherIndex < otherGroup.endIndex; otherIndex += 1) {
       if (!otherActive[otherIndex]) continue;
-      const distanceThreshold =
-        thisCollisionDistance + otherCollisionDistance[otherIndex];
+      const distanceThreshold = thisCollisionDistance + otherCollisionDistance[otherIndex];
 
       const actualDistanceX = Math.abs(thisX - otherX[otherIndex]);
       if (actualDistanceX > distanceThreshold) continue;

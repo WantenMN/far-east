@@ -1,5 +1,5 @@
-import p5 from "p5";
-import { ASSETS_DIRECTORY_PATH as ASSETS } from "./settings";
+import p5 from 'p5';
+import { ASSETS_DIRECTORY_PATH as ASSETS } from './settings';
 
 export let jp: p5.Font;
 export let en: p5.Font;
@@ -12,7 +12,7 @@ export const load = (
   files: {
     jp: string;
     en: string;
-  }
+  },
 ): void => {
   p.loadFont(`${ASSETS}/${files.jp}`, setJp);
   p.loadFont(`${ASSETS}/${files.en}`, setEn);
