@@ -37,7 +37,7 @@ function createParticles() {
 }
 
 function loop() {
-  context.fillStyle = 'rgba(0,0,0,0.2)';
+  context.fillStyle = 'rgba(255,255,255,0.2)';
   context.fillRect(0, 0, context.canvas.width, context.canvas.height);
 
   let z = 0;
