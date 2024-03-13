@@ -9,18 +9,9 @@ import {
 import * as Fonts from "./fonts";
 import * as Sounds from "./sound";
 import * as Game from "./game";
+import { onSetup } from "./game/core/actor-types";
 
-addEventListener("p5ExtensionLoaded", () => {
-  const {
-    startSketch,
-    p,
-    canvas,
-    createPixels,
-    replaceCanvasPixels,
-    MoveKeys,
-    Mouse,
-  } = window.p5Extension;
-
+document.addEventListener("p5ExtensionLoaded", () => {
   // ---- variables | functions ----
   let drawBackground: () => void;
   let volumeSlider: p5.Element;
@@ -37,6 +28,7 @@ addEventListener("p5ExtensionLoaded", () => {
   };
 
   const initializeVolumeSlider = () => {
+    const { p, canvas } = window.p5Extension;
     volumeSlider = p.createSlider(0, 100, 15, 5);
     volumeSlider.position(
       canvas.scaleFactor * 50,
@@ -48,6 +40,7 @@ addEventListener("p5ExtensionLoaded", () => {
   };
 
   const initialize = (): void => {
+    const { p, canvas, createPixels, replaceCanvasPixels } = window.p5Extension;
     const backgroundPixels = createPixels(() => {
       canvas.drawScaled(() => {
         const { width, height } = LOGICAL_CANVAS_SIZE;
@@ -75,6 +68,7 @@ addEventListener("p5ExtensionLoaded", () => {
   // ---- draw ----
 
   const drawInstruction = () => {
+    const { p } = window.p5Extension;
     p.push();
 
     p.textFont(Fonts.en, 24);
@@ -91,6 +85,7 @@ addEventListener("p5ExtensionLoaded", () => {
   };
 
   const drawSketch = (): void => {
+    const { p, canvas } = window.p5Extension;
     Game.run();
 
     if (!gameIsStarted) drawInstruction();
@@ -101,6 +96,7 @@ addEventListener("p5ExtensionLoaded", () => {
   };
 
   const draw = (): void => {
+    const { canvas } = window.p5Extension;
     drawBackground();
     canvas.drawScaled(drawSketch);
     updateVolume();
@@ -109,6 +105,7 @@ addEventListener("p5ExtensionLoaded", () => {
   // ---- UI ----
 
   const keyTyped = (): void => {
+    const { p } = window.p5Extension;
     switch (p.key) {
       // case "p":
       //   pauseOrResume();
@@ -129,6 +126,7 @@ addEventListener("p5ExtensionLoaded", () => {
   // ---- start sketch ----
 
   const setP5Methods = (p: p5): void => {
+    const { MoveKeys, Mouse } = window.p5Extension;
     p.draw = draw;
     p.mouseMoved = () => {
       Mouse.updatePosition();
@@ -146,11 +144,13 @@ addEventListener("p5ExtensionLoaded", () => {
     };
   };
 
+  const { startSketch } = window.p5Extension;
   startSketch({
     htmlElement: HTML_ELEMENT,
     logicalCanvasSize: LOGICAL_CANVAS_SIZE,
     initialize,
     setP5Methods,
     fittingOption: ENABLE_CANVAS_SCALING ? undefined : null,
+    onSetup,
   });
 });

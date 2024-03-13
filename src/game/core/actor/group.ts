@@ -2,9 +2,6 @@ import { StructureOfArrays } from "@fal-works/creative-coding-core";
 import * as Actor from "./actor";
 import { Type } from "./type";
 
-const { RectangleRegion } = window.creativeCodingCore;
-const { drawTransformed, canvas } = window.p5Extension;
-
 export interface Unit {
   readonly soa: StructureOfArrays.Unit<Actor.Unit>;
   startIndex: number;
@@ -134,6 +131,8 @@ export const kill = (group: Unit, index: number) => {
 };
 
 export const runAndDraw = (group: Unit) => {
+  const { RectangleRegion } = window.creativeCodingCore;
+  const { drawTransformed, canvas } = window.p5Extension;
   const { soa, startIndex, endIndex } = group;
 
   if (startIndex >= soa.length) return;

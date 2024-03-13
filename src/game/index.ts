@@ -5,7 +5,7 @@ import * as Actor from "./core/actor";
 import * as Sound from "../sound";
 
 const { Math: Math2, Timer, Random, Easing } = window.creativeCodingCore;
-const { p, canvas, setShake, applyShake, drawTransformed } = window.p5Extension;
+
 const enum ShakeType {
   VERTICAL = "VERTICAL",
   HORIZONTAL = "HORIZONTAL",
@@ -89,6 +89,7 @@ export const reset = (playable: boolean = true) => {
   score = 0;
   state = State.PLAYING;
   Timer.Set.clear(timerSet);
+  Sound.playMusic();
 
   Core.reset();
   Core.createPlayer(ActorTypes.player);
@@ -103,6 +104,7 @@ const onHitEnemy: Actor.Group.OnCollideCallback = (
   enemy,
   enemyIndex
 ) => {
+  const { setShake } = window.p5Extension;
   const x = playerBullet.soa.data.x[playerBulletIndex];
   const y = playerBullet.soa.data.y[playerBulletIndex];
   Actor.Group.kill(playerBullet, playerBulletIndex);
@@ -129,6 +131,7 @@ const onHitPlayer: Actor.Group.OnCollideCallback = (
   player,
   playerIndex
 ) => {
+  const { setShake } = window.p5Extension;
   const x = enemyBullet.soa.data.x[enemyBulletIndex];
   const y = enemyBullet.soa.data.y[enemyBulletIndex];
   Actor.Group.kill(enemyBullet, enemyBulletIndex);
@@ -154,6 +157,7 @@ const onHitPlayer: Actor.Group.OnCollideCallback = (
 };
 
 const drawLife = () => {
+  const { drawTransformed } = window.p5Extension;
   const extraLifeCount = Math.max(0, Core.getPlayerLife() - 1);
 
   let x = 30;
@@ -165,12 +169,14 @@ const drawLife = () => {
 };
 
 const drawScore = () => {
+  const { p, canvas } = window.p5Extension;
   p.textSize(24);
   p.textAlign(p.RIGHT);
   p.text(`SCORE: ${p.nfc(score, 0)}`, canvas.logicalSize.width - 20, 40);
 };
 
 const drawResult = () => {
+  const { p, canvas } = window.p5Extension;
   p.textAlign(p.CENTER);
   p.textSize(64);
   p.text(
@@ -187,6 +193,7 @@ const drawResult = () => {
 };
 
 export const run = () => {
+  const { applyShake } = window.p5Extension;
   applyShake();
   Core.runAndDraw();
   Core.checkPlayerBulletCollision(onHitEnemy);

@@ -5,8 +5,6 @@ import * as GameCore from "./game-core";
 import * as Sound from "../../sound";
 
 const { Math: Math2, Random, Easing } = window.creativeCodingCore;
-const { p, graphicsToImage, onSetup, KeyBoard, MoveKeys, canvas } =
-  window.p5Extension;
 
 export let player: Actor.Type;
 export let drawPlayerGraphics: () => void;
@@ -76,6 +74,7 @@ const createCharacterGraphics = (
   size: number,
   color: p5.Color
 ) => {
+  const { p } = window.p5Extension;
   const halfSize = 0.5 * size;
   const graphics = p.createGraphics(size, size);
   const g = graphics as any as p5; // eslint-disable-line @typescript-eslint/no-explicit-any
@@ -93,6 +92,7 @@ const createCharacterGraphics = (
 };
 
 const mirrorGraphics = (graphics: p5.Graphics) => {
+  const { p, graphicsToImage } = window.p5Extension;
   /* eslint-disable @typescript-eslint/no-explicit-any */
   const img = graphicsToImage(graphics);
   const { width, height } = img;
@@ -117,6 +117,7 @@ const createActorGraphics = (
   size: number,
   color: p5.Color
 ) => {
+  const { p } = window.p5Extension;
   const graphics = createCharacterGraphics(param, size, color);
   mirrorGraphics(graphics);
 
@@ -125,7 +126,8 @@ const createActorGraphics = (
   };
 };
 
-onSetup.push((p) => {
+export function onSetup(p: p5) {
+  const { KeyBoard, MoveKeys, canvas } = window.p5Extension;
   const emptyFunction = () => {};
 
   const firePlayerBullet = (x: number, y: number) =>
@@ -333,7 +335,7 @@ onSetup.push((p) => {
       maxLife: 0,
     };
   });
-});
+}
 
 // const directionArray: readonly Direction[] = [0, 1, 2, 3];
 

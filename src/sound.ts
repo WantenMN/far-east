@@ -11,11 +11,11 @@ const {
   damageSound,
 } = window.sounds;
 
-const playMusic = () => {
+export const playMusic = () => {
   if (ENABLE_MUSIC) music.play();
 };
 
-const stopMusic = () => {
+export const stopMusic = () => {
   if (ENABLE_MUSIC) music.stop();
 };
 

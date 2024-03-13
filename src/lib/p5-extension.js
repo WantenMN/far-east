@@ -485,7 +485,6 @@ document.addEventListener("p5Loaded", () => {
       paused = true;
     }
   };
-  const onSetup = [];
   const createScaledCanvas = (node, logicalSize, fittingOption, renderer) => {
     const maxCanvasSize = creativeCodingCore.HtmlUtility.getElementSize(
       typeof node === "string"
@@ -540,10 +539,7 @@ document.addEventListener("p5Loaded", () => {
             settings.fittingOption
           )
         );
-        creativeCodingCore.ArrayUtility.loop(onSetup, (listener) =>
-          listener(p)
-        );
-        onSetup.length = 0;
+        settings.onSetup(p);
         settings.initialize();
       };
       settings.setP5Methods(p);
@@ -573,7 +569,6 @@ document.addEventListener("p5Loaded", () => {
   p5Extension.line = line;
   p5Extension.lineAtOrigin = lineAtOrigin;
   p5Extension.lineWithMargin = lineWithMargin;
-  p5Extension.onSetup = onSetup;
   p5Extension.parseColor = parseColor;
   p5Extension.parseFill = parseFill;
   p5Extension.parseStroke = parseStroke;
