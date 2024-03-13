@@ -5,7 +5,7 @@ let SCREEN_HEIGHT = window.innerHeight;
 
 const QUANTITY = 100;
 const PARTICLE_SIZE = 10;
-const CANVAS = document.querySelector('.canvas-background');
+const CANVAS = document.querySelector(".canvas-background");
 let context;
 let particles;
 
@@ -14,8 +14,12 @@ function createParticles() {
   const depth = 0;
 
   for (let i = 0; i < QUANTITY; i++) {
-    const posX = PARTICLE_SIZE / 2 + Math.random() * (window.innerWidth - PARTICLE_SIZE / 2);
-    const posY = PARTICLE_SIZE / 2 + Math.random() * (window.innerHeight - PARTICLE_SIZE / 2);
+    const posX =
+      PARTICLE_SIZE / 2 +
+      Math.random() * (window.innerWidth - PARTICLE_SIZE / 2);
+    const posY =
+      PARTICLE_SIZE / 2 +
+      Math.random() * (window.innerHeight - PARTICLE_SIZE / 2);
 
     const speed = 2;
     const directionX = -speed + Math.random() * speed * 2;
@@ -37,7 +41,7 @@ function createParticles() {
 }
 
 function loop() {
-  context.fillStyle = 'rgba(255,255,255,0.2)';
+  context.fillStyle = "rgba(255,255,255,0.2)";
   context.fillRect(0, 0, context.canvas.width, context.canvas.height);
 
   let z = 0;
@@ -50,11 +54,17 @@ function loop() {
 
     const lp = { x: particle.position.x, y: particle.position.y };
 
-    if (particle.position.x <= particle.size / 2 || particle.position.x >= SCREEN_WIDTH - PARTICLE_SIZE / 2) {
+    if (
+      particle.position.x <= particle.size / 2 ||
+      particle.position.x >= SCREEN_WIDTH - PARTICLE_SIZE / 2
+    ) {
       particle.directionX *= -1;
     }
 
-    if (particle.position.y <= particle.size / 2 || particle.position.y >= SCREEN_HEIGHT - PARTICLE_SIZE / 2) {
+    if (
+      particle.position.y <= particle.size / 2 ||
+      particle.position.y >= SCREEN_HEIGHT - PARTICLE_SIZE / 2
+    ) {
       particle.directionY *= -1;
     }
 
@@ -80,7 +90,14 @@ function loop() {
     context.fillStyle = particle.fillColor;
     context.lineWidth = particle.size;
     context.moveTo(lp.x, lp.y);
-    context.arc(particle.position.x, particle.position.y, particle.size / 2, 0, Math.PI * 2, true);
+    context.arc(
+      particle.position.x,
+      particle.position.y,
+      particle.size / 2,
+      0,
+      Math.PI * 2,
+      true
+    );
     context.closePath();
     context.fill();
   }
@@ -109,9 +126,9 @@ function windowResizeHandler() {
 }
 
 if (CANVAS && CANVAS.getContext) {
-  context = CANVAS.getContext('2d');
-  context.globalCompositeOperation = 'destination-over';
-  window.addEventListener('resize', windowResizeHandler, false);
+  context = CANVAS.getContext("2d");
+  context.globalCompositeOperation = "destination-over";
+  window.addEventListener("resize", windowResizeHandler, false);
   windowResizeHandler();
   createParticles();
   loop();

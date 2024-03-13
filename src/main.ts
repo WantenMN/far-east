@@ -1,6 +1,16 @@
-import p5 from 'p5';
+import p5 from "p5";
 
 import {
+  HTML_ELEMENT,
+  LOGICAL_CANVAS_SIZE,
+  ENABLE_CANVAS_SCALING,
+} from "./settings";
+
+import * as Fonts from "./fonts";
+import * as Sounds from "./sound";
+import * as Game from "./game";
+
+const {
   startSketch,
   p,
   canvas,
@@ -9,13 +19,7 @@ import {
   // pauseOrResume,
   MoveKeys,
   Mouse,
-} from '@fal-works/p5-extension';
-
-import { HTML_ELEMENT, LOGICAL_CANVAS_SIZE, ENABLE_CANVAS_SCALING } from './settings';
-
-import * as Fonts from './fonts';
-import * as Sounds from './sound';
-import * as Game from './game';
+} = window.p5Extension;
 
 // ---- variables | functions ----
 
@@ -24,23 +28,6 @@ let volumeSlider: p5.Element;
 let gameIsStarted = false;
 
 // ---- reset & initialize ----
-
-const prelaod = (): void => {
-  Fonts.load(p, {
-    jp: 'NotoSerifJP-Medium-subset.otf',
-    en: 'NotoSerifJP-Bold-subset.otf',
-  });
-
-  Sounds.load(p, {
-    music: 'WELCOMEB4CK.ogg',
-    gunSound: 'submachinegun1_edit.wav',
-    bombSound: 'bomb2_edit.wav',
-    preAppearanceSound: 'enemy-advent1.wav',
-    appearanceSound: 'punch-high2.wav',
-    damageSound: 'cannon1_edit.wav',
-  });
-};
-
 const reset = (): void => {
   Game.reset(gameIsStarted);
 };
@@ -52,9 +39,12 @@ const updateVolume = () => {
 
 const initializeVolumeSlider = () => {
   volumeSlider = p.createSlider(0, 100, 15, 5);
-  volumeSlider.position(canvas.scaleFactor * 50, canvas.scaleFactor * (canvas.logicalSize.height - 40));
-  volumeSlider.style('width', `${canvas.scaleFactor * 200}px`);
-  volumeSlider.style('height', `${canvas.scaleFactor * 25}px`);
+  volumeSlider.position(
+    canvas.scaleFactor * 50,
+    canvas.scaleFactor * (canvas.logicalSize.height - 40)
+  );
+  volumeSlider.style("width", `${canvas.scaleFactor * 200}px`);
+  volumeSlider.style("height", `${canvas.scaleFactor * 25}px`);
   updateVolume();
 };
 
@@ -91,12 +81,12 @@ const drawInstruction = () => {
   p.textFont(Fonts.en, 24);
   p.textAlign(p.LEFT);
 
-  p.text('ARROW / WASD :', 160, 500);
-  p.text('MOVE', 460, 500);
-  p.text('Z / J / SPACE / ENTER :', 160, 540);
-  p.text('SHOOT', 460, 540);
+  p.text("ARROW / WASD :", 160, 500);
+  p.text("MOVE", 460, 500);
+  p.text("Z / J / SPACE / ENTER :", 160, 540);
+  p.text("SHOOT", 460, 540);
 
-  p.text('PRESS SPACE KEY TO START', 160, 600);
+  p.text("PRESS SPACE KEY TO START", 160, 600);
 
   p.pop();
 };
@@ -108,7 +98,7 @@ const drawSketch = (): void => {
 
   p.textFont(Fonts.en, 16);
   p.textAlign(p.LEFT);
-  p.text('VOL', 10, canvas.logicalSize.height - 23);
+  p.text("VOL", 10, canvas.logicalSize.height - 23);
 };
 
 const draw = (): void => {
@@ -124,8 +114,8 @@ const keyTyped = (): void => {
     // case "p":
     //   pauseOrResume();
     //   break;
-    case 'g':
-      p.save('image.png');
+    case "g":
+      p.save("image.png");
       break;
   }
 
@@ -140,7 +130,6 @@ const keyTyped = (): void => {
 // ---- start sketch ----
 
 const setP5Methods = (p: p5): void => {
-  p.preload = prelaod;
   p.draw = draw;
   p.mouseMoved = () => {
     Mouse.updatePosition();
@@ -150,7 +139,8 @@ const setP5Methods = (p: p5): void => {
   p.keyTyped = keyTyped;
   p.keyPressed = () => {
     MoveKeys.onPressed();
-    if (MoveKeys.up || MoveKeys.left || MoveKeys.down || MoveKeys.right) return false;
+    if (MoveKeys.up || MoveKeys.left || MoveKeys.down || MoveKeys.right)
+      return false;
   };
   p.keyReleased = () => {
     MoveKeys.onReleased();

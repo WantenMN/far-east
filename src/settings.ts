@@ -1,9 +1,10 @@
-import { HtmlUtility, RectangleSize } from '@fal-works/creative-coding-core';
+import { RectangleSize } from "@fal-works/creative-coding-core";
 
+const { HtmlUtility } = window.creativeCodingCore;
 /**
  * The id of the HTML element to which the canvas should belong.
  */
-export const HTML_ELEMENT_ID = 'FarEast';
+export const HTML_ELEMENT_ID = "FarEast";
 
 /**
  * The HTML element to which the canvas should belong.
@@ -31,4 +32,4 @@ export const ENABLE_CANVAS_SCALING = true;
 /**
  * The directory path of assets.
  */
-export const ASSETS_DIRECTORY_PATH = 'assets';
+export const ASSETS_DIRECTORY_PATH = "assets";

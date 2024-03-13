@@ -1,11 +1,11 @@
-import { Random } from '@fal-works/creative-coding-core';
-import * as Core from './core/game-core';
-import { LOGICAL_CANVAS_SIZE } from '../settings';
+import * as Core from "./core/game-core";
+import { LOGICAL_CANVAS_SIZE } from "../settings";
 
+const { Random } = window.creativeCodingCore;
 export const enum State {
-  ACTIVE = 'ACTIVE',
-  APPROACHING = 'APPROACHING',
-  ABSENT = 'ABSENT',
+  ACTIVE = "ACTIVE",
+  APPROACHING = "APPROACHING",
+  ABSENT = "ABSENT",
 }
 
 export interface Unit {

@@ -1,8 +1,8 @@
-import { Math as Math2, ArrayUtility } from '@fal-works/creative-coding-core';
-import * as Actor from './actor';
-import { LOGICAL_CANVAS_SIZE } from '../../settings';
-import * as Sound from '../../sound';
+import * as Actor from "./actor";
+import { LOGICAL_CANVAS_SIZE } from "../../settings";
+import * as Sound from "../../sound";
 
+const { Math: Math2, ArrayUtility } = window.creativeCodingCore;
 let frameCount = 0;
 
 const playerGroup = Actor.Group.create(1);
@@ -15,7 +15,7 @@ export const createPlayer = (type: Actor.Type) => {
     0,
     0,
     -Math2.HALF_PI,
-    type,
+    type
   );
   playerIsActive = true;
 };
@@ -24,7 +24,8 @@ export const killPlayer = () => {
   playerIsActive = false;
   Sound.stopGunSound();
 };
-export const getPlayerLife = () => (playerIsActive ? playerGroup.soa.data.life[0] : 0);
+export const getPlayerLife = () =>
+  playerIsActive ? playerGroup.soa.data.life[0] : 0;
 
 const playerX = playerGroup.soa.data.x;
 const playerY = playerGroup.soa.data.y;
@@ -47,7 +48,7 @@ const fire =
       speed * Math.cos(directionAngle),
       speed * Math.sin(directionAngle),
       directionAngle,
-      type,
+      type
     );
 
 export const firePlayerBullet = fire(playerBulletGroup);
@@ -63,7 +64,8 @@ export const killEnemy = (index: number) => {
   Actor.Group.kill(enemyGroup, index);
   enemyCount -= 1;
 };
-export const enemyIsActive = (index: number) => enemyGroup.soa.data.active[index];
+export const enemyIsActive = (index: number) =>
+  enemyGroup.soa.data.active[index];
 
 const enemyBulletGroup = Actor.Group.create(1024);
 export const fireEnemyBullet = fire(enemyBulletGroup);
@@ -73,9 +75,13 @@ export const useParticle = (x: number, y: number, type: Actor.Type) =>
   Actor.Group.use(particleGroup, x, y, 0, 0, 0, type);
 export const fireParticle = fire(particleGroup);
 
-export const killParticle = (index: number) => Actor.Group.kill(particleGroup, index);
+export const killParticle = (index: number) =>
+  Actor.Group.kill(particleGroup, index);
 
-export const overrideParticleBehavior = (index: number, run: Actor.RunCallback) => {
+export const overrideParticleBehavior = (
+  index: number,
+  run: Actor.RunCallback
+) => {
   particleGroup.soa.data.run[index] = run;
 };
 
@@ -97,15 +103,19 @@ export const reset = () => {
   ArrayUtility.loop(actorGroups, Actor.Group.reset);
 };
 
-export const checkPlayerBulletCollision = (onHitEnemy: Actor.Group.OnCollideCallback) =>
-  Actor.Group.checkCollision(playerBulletGroup, enemyGroup, onHitEnemy);
+export const checkPlayerBulletCollision = (
+  onHitEnemy: Actor.Group.OnCollideCallback
+) => Actor.Group.checkCollision(playerBulletGroup, enemyGroup, onHitEnemy);
 
-export const checkEnemyBulletCollision = (onHitPlayer: Actor.Group.OnCollideCallback) => {
+export const checkEnemyBulletCollision = (
+  onHitPlayer: Actor.Group.OnCollideCallback
+) => {
   if (frameCount % 2 === 0) return;
   if (playerGroup.soa.data.damagedRemainingCount[0] > 0) return;
 
   Actor.Group.checkCollision(enemyBulletGroup, playerGroup, onHitPlayer);
 };
 
-export const breakEnemyBullets = (fireParticle: (x: number, y: number) => void) =>
-  Actor.Group.breakActors(enemyBulletGroup, fireParticle);
+export const breakEnemyBullets = (
+  fireParticle: (x: number, y: number) => void
+) => Actor.Group.breakActors(enemyBulletGroup, fireParticle);
