@@ -1,10 +1,8 @@
-import {
-  StructureOfArrays,
-  RectangleRegion,
-} from "@fal-works/creative-coding-core";
+import { StructureOfArrays } from "@fal-works/creative-coding-core";
 import * as Actor from "./actor";
 import { Type } from "./type";
 
+const { RectangleRegion } = window.creativeCodingCore;
 const { drawTransformed, canvas } = window.p5Extension;
 
 export interface Unit {
